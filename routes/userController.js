@@ -19,9 +19,6 @@ module.exports = {
         }
 
         //Verify
-        console.log('----- userController register -----')
-        console.log(req.body.password.length)
-        console.log('--------------------------')
         if(username.length < 3 && username.length > 14){
             return res.status(400).json({'error':'wrong username (must be length 3 - 14)'})
         }

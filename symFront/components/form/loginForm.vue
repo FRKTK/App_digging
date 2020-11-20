@@ -15,7 +15,7 @@
                 </div>
                 <div class="form-group">
                   <label for="artist">Password</label>
-                  <input type="password" class="form-control" v-model="password"/>
+                  <input type="password" class="form-control" v-model="password" required/>
                 </div>
                 <div class="form-group">
                   <button type="submit" class="btn btn-primary">Submit</button>
