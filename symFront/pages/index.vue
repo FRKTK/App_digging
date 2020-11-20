@@ -1,14 +1,15 @@
 <template>
-  <div id="container">
+  <b-container>
     <div v-if="!isLogin">Not logged</div>
     <div v-if="isLogin">
       <musicComponent v-for="(track, i) in tracks" :key="i" :tracks="track" />
     </div>
-  </div>
+  </b-container>
 </template>
 
 <script>
 import musicComponent from "@/components/homepage/music";
+import { BContainer } from "bootstrap-vue";
 import axios from "axios";
 import Cookies from "js-cookie";
 
