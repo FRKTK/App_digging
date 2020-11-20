@@ -1,10 +1,11 @@
 <template>
-  <b-container>
-    <div v-if="!isLogin">Not logged</div>
-    <div v-if="isLogin">
-      <musicComponent v-for="(track, i) in tracks" :key="i" :tracks="track" />
-    </div>
-  </b-container>
+  <div id="app">
+    <b-container>
+      <div>
+        <musicComponent v-for="(track, i) in tracks" :key="i" :tracks="track" />
+      </div>
+    </b-container>
+  </div>
 </template>
 
 <script>
@@ -33,7 +34,7 @@ export default {
       var token = Cookies.get("auth._token.local");
       console.log("isLogin methods : " + token.replace("Bearer", ""));
       return token;
-    }
+    },
   },
   mounted() {},
 };

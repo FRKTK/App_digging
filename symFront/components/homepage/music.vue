@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <b-row class="justify-content-md-center mt-3">
+    <b-row class="justify-content-md-center mt-3 w-100">
       <b-col md="10">
         <b-card no-body class="overflow-hidden" lg="12">
           <b-row no-gutters>
@@ -25,7 +24,6 @@
         </b-card>
       </b-col>
     </b-row>
-  </div>
 </template>
 
 <script>
