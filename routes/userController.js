@@ -69,7 +69,6 @@ module.exports = {
                 })
             }
         ], function(newUser){
-            console.table(newUser);
             if(newUser){
                 return res.status(201).json({'userId' : newUser.id });
             } else {
