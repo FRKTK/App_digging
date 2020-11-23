@@ -41,6 +41,7 @@ module.exports = {
         asyncLib.waterfall([
             function(done){
                 models.User.findOne({
+                    attributes: ['id'],
                     where: { id: userId }
                 })
                 .then(function(userFound){
