@@ -8,19 +8,19 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      linkId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Links',
-          key: 'id'
-        }
-      },
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'Users',
+          key: 'id'
+        }
+      },
+      linkId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Links',
           key: 'id'
         }
       },

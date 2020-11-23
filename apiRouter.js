@@ -13,9 +13,10 @@ exports.router = (function() {
     apiRouter.route('/user/me/').get(userController.getUserProfile);
     apiRouter.route('/users/all/').get(userController.all);
     apiRouter.route('/user/updateMe/').put(userController.updateUserProfile);
-
+    //Tracks routes
     apiRouter.route('/track/add/').post(tracksController.add);
     apiRouter.route('/track/').get(tracksController.all);
+   // apiRouter.route('/track/:trackId/like/').post(tracksController.like);
     //App routes
     return apiRouter;
 })();
