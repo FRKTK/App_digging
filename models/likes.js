@@ -4,12 +4,12 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Likes.associate = function(models) {
     // associations can be defined here
-    models.Link.belongsTo(models.Link, {
+    models.Likes.belongsTo(models.Link, {
       foreignKey: {
         allowNull: false
       }
     }),
-    models.Link.belongsTo(models.User, {
+    models.Likes.belongsTo(models.User, {
       foreignKey: {
         allowNull: false
       }

@@ -2,14 +2,13 @@ var jwtUtils = require('../utils/jwt.utils');
 var models = require('../models');
 var asyncLib = require('async');
 
-//Const for like
-const DISLIKED = 0;
-const LIKED    = 1;
 
 function parseYoutube(link) {
-    reg = /(http:|https:|)\/\/(player.|www.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com))\/(video\/|embed\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/;
-    var found = link.match(reg)
-    if (link.indexOf('youtu') > -1) {
+    var reg = /(http:|https:|)\/\/(player.|www.)?(vimeo\.com|youtu(be\.com|\.be|be\.googleapis\.com))\/(video\/|embed\/|watch\?v=|v\/)?([A-Za-z0-9._%-]*)(\&\S+)?/
+    var found = link.match(reg);
+    console.log('----- Found regex -----')
+    console.log(found)
+    if (found.indexOf('youtu.be') > -1 || found.indexOf('youtube.com')) {
         var type = 'youtube';
         var videoId = found[6];
         var goodLink = true; 
@@ -21,7 +20,6 @@ function parseYoutube(link) {
         type: type,
         id: videoId
     };
-    //TODO: Vérification si c'est un lien en youtube ou youtu.be. Séparer le lien pour en récupérer le videoID + MAJ BDD pour inclure cet objet
 }
 
 module.exports = {
@@ -30,7 +28,7 @@ module.exports = {
         var userId = jwtUtils.getUserId(headerAuth);
 
         var link = req.body.link;
-
+        console.log('Link : ' + link);
         if(link == null){            
             return res.status(400).json({'error':'missing parameters'});
         }
@@ -45,15 +43,19 @@ module.exports = {
                     where: { id: userId }
                 })
                 .then(function(userFound){
+                    console.log('Link : ' + link);
                     done(null, userFound);
                 })
                 .catch(function(err){
-                    return res.status(500).json({'error':'unable to verify user + ' + err});
+                    console.log(err)
+                    return res.status(500).json({'error':'unable to verify user'});
                 })
             },
             function(userFound, done){
+                console.log('----- Parse link -----')
+                console.table(parseYoutube(req.body.link));
                 if(userFound){
-                    var verifLink = parseYoutube(link);
+                    var verifLink = parseYoutube(req.body.link);
                     var link = verifLink.id
                     var userId = userFound.id;
                     
@@ -66,7 +68,7 @@ module.exports = {
                             done(newLink);
                         }).catch(function(err){
                             console.log('----- Add link -----')
-                            console.log(linkId)
+                            console.log(link)
                             console.log('--------------------')
                             console.log('error ' + err)
                         });
