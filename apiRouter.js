@@ -16,7 +16,7 @@ exports.router = (function() {
     //Tracks routes
     apiRouter.route('/track/add/').post(tracksController.add);
     apiRouter.route('/track/').get(tracksController.all);
-   // apiRouter.route('/track/:trackId/like/').post(tracksController.like);
+    apiRouter.route('/track/:trackId/like/').post(tracksController.like);
     //App routes
     return apiRouter;
 })();

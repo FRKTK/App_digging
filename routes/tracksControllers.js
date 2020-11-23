@@ -67,9 +67,6 @@ module.exports = {
                             console.log('then2');
                             done(newLink);
                         }).catch(function(err){
-                            console.log('----- Add link -----')
-                            console.log(link)
-                            console.log('--------------------')
                             console.log('error ' + err)
                         });
                     }else{
@@ -116,7 +113,7 @@ module.exports = {
     },
     del: function(req, res){},
     report: function(req, res){},
-    /*like: function(req, res){
+    like: function(req, res){
         var headerAuth = req.headers['authorization'];
         var userId = jwtUtils.getUserId(headerAuth);
 
@@ -174,23 +171,24 @@ module.exports = {
             function(trackFound, userFound, userAlreadyLikeFound, done){
                 if(!userAlreadyLikeFound){
                     models.Likes.create({
-                        linkdId: trackFound.id,
-                        userId: userFound.id
+                        LinkId: trackFound.id,
+                        UserId: userFound.id
                     })
                     .then(function(trackLiked){
                         done(trackLiked);
                     })
                     .catch(function(err){
+                        console.log(err)
                         return res.status(500).json({ 'error': 'unable to set user reaction' });
                     });
                 }else if(userAlreadyLikeFound){
-                    models.Likes.delete({
+                    models.Likes.destroy({
                         where : {
-                            linkdId: trackFound.id,
-                            userId: userFound.id
+                            LinkId: trackFound.id,
+                            UserId: userFound.id
                         }
                     })
-                    .then(function(trakcUnLiked){
+                    .then(function(trackUnLiked){
                         done(trackUnLiked);
                     })
                     .catch(function(err){
@@ -207,6 +205,6 @@ module.exports = {
                 return res.status(500).json({ 'error': 'cannot update message' });
             }
           })
-    },*/
+    },
     unlike: function(req, res){}
 }
