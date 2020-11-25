@@ -1,11 +1,11 @@
 <template>
     <b-row class="justify-content-md-center mt-3 w-100">
-      <b-col md="10">
-        <b-card no-body class="overflow-hidden" lg="12">
+      <b-col md="12">
+        <b-card no-body class="overflow-hidden" lg="4">
           <b-row no-gutters>
             <b-col md="4">
               <b-card-img
-                src="https://picsum.photos/400/400/?image=20"
+                src="https://picsum.photos/200/200/?image=21"
                 alt="Image"
                 class="rounded-0"
               ></b-card-img>

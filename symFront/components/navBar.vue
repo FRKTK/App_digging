@@ -21,8 +21,8 @@
             
         <b-nav-item-dropdown right v-else>
           <!-- Using 'button-content' slot -->
-            <template #button-content>
-                <em>User</em>
+            <template #button-content variant="light">
+                <b-avatar variant="light" class="mr-2"><b>T</b></b-avatar>
             </template>
             <b-dropdown-item><nuxt-link to="/user" >My Profile</nuxt-link></b-dropdown-item>
             <b-dropdown-item>Sign Out</b-dropdown-item>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { BNavbar, BNavItem } from "bootstrap-vue";
+import { BNavbar, BNavItem, BAvatar } from "bootstrap-vue";
 import loginForm from "@/components/form/loginForm";
 
 export default {
@@ -72,6 +72,19 @@ nav {
   a {
     //color: #ebf5fb;
     //font-weight: 800;
+  }
+
+  span.userIcon{
+      color: white;
+      font-weight: 700;
+      background: red;
+      text-align: center;
+      vertical-align: middle;
+      display: inline-block;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      border: 2px solid white
   }
 }
 </style>

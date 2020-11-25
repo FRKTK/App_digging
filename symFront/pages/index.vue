@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-container>
+    <b-container class="main">
       <div>
         <client-only>
           <musicComponent v-for="(track, i) in tracks" :key="i" :tracks="track" />
@@ -38,6 +38,9 @@ export default {
 </script>
 
 <style>
+#app{
+  padding-top: 70px;
+}
 .container {
   margin: 0 auto;
   min-height: 100vh;
