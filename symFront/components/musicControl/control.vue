@@ -1,6 +1,9 @@
 <template>
   <div class="controls">
-    <b-button variant="success" name="up">
+    <b-button variant="success" name="up" v-if="isSongLike(this.like) == true">
+      <b-icon-heart-fill></b-icon-heart-fill>
+    </b-button>
+    <b-button variant="success" name="up" v-else>
       <b-icon-heart></b-icon-heart>
     </b-button>
     <b-button variant="light" name="other">
@@ -16,7 +19,7 @@ import {
   BIconArrowDown,
   BIconThreeDotsVertical,
   BIconHeart,
-  BIconHeartFill
+  BIconHeartFill,
 } from "bootstrap-vue";
 
 export default {
@@ -26,7 +29,7 @@ export default {
     BIconArrowDown,
     BIconThreeDotsVertical,
     BIconHeart,
-    BIconHeartFill
+    BIconHeartFill,
   },
   model: {
     prop: "controler",
@@ -37,17 +40,31 @@ export default {
       type: String,
       require: true,
     },
-    // like: {
-    //   type: Function
-    // }
+    like: {
+      type: Array
+    },
+    track: Number
   },
   data() {
     return {
-      name: ""
+      name: "",
+      trackId: this.track
     };
   },
-  mounted() { 
-    },
+  methods: {
+    isSongLike(likeArray){
+      let i
+      for(i in likeArray){
+        let like = likeArray[i]
+        let linkId = like.LinkId
+        if(linkId == this.trackId){ 
+          return true
+        }        
+      }
+    }
+  },
+  mounted() {
+  },
 };
 </script>
 

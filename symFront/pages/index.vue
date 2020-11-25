@@ -2,7 +2,10 @@
   <div id="app">
     <b-container>
       <div>
-        <musicComponent v-for="(track, i) in tracks" :key="i" :tracks="track" />
+        <client-only>
+          <musicComponent v-for="(track, i) in tracks" :key="i" :tracks="track" />
+        </client-only>
+        
       </div>
     </b-container>
   </div>
