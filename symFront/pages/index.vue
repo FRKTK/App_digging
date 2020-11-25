@@ -33,18 +33,7 @@ export default {
     );
   },
   methods: {},
-  mounted() {
-    
-    const isLogin = this.$store.state.auth.loggedIn;
-    // TODO: Récupération en mieux
-    // if (isLogin == true) {
-    //   axios.get("http://localhost:4000/api/user/getLikes", {
-    //       headers: {
-    //         Authorization: Cookies.get("auth._token.local"),
-    //       },
-    //     }).then((res) => (this.likedTracks = res.data))
-    // }
-  },
+  mounted() {  },
 };
 </script>
 

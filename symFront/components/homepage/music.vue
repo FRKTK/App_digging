@@ -55,7 +55,6 @@ export default {
   },
   async fetch(){
     const isLogin = this.$store.state.auth.loggedIn;
-    // TODO: Récupération en mieux
     if (isLogin == true) {
       this.likedTracks = await fetch("http://localhost:4000/api/user/getLikes", {
           headers: {
@@ -70,12 +69,7 @@ export default {
   },
   methods: {
   },
-  mounted() {
-    // Like pas fait
-    // var getLikes = this.likes
-    // getLikes.then((res) => this.liked = res.data)
-    // console.log(this.liked)
-  },
+  mounted() {  },
 };
 </script>
 
