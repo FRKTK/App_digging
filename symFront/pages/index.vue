@@ -2,7 +2,7 @@
   <div id="app">
     <b-container>
       <div>
-        <musicComponent v-for="(track, i) in tracks" :key="i" :tracks="track" :likes='likedTracks'/>
+        <musicComponent v-for="(track, i) in tracks" :key="i" :tracks="track" />
       </div>
     </b-container>
   </div>
@@ -22,7 +22,6 @@ export default {
   data() {
     return {
       tracks: [],
-      likedTracks: []
     };
   },
   async fetch() {
@@ -34,6 +33,7 @@ export default {
   mounted() {
     
     const isLogin = this.$store.state.auth.loggedIn;
+    // TODO: Récupération en mieux
     // if (isLogin == true) {
     //   axios.get("http://localhost:4000/api/user/getLikes", {
     //       headers: {
@@ -41,22 +41,6 @@ export default {
     //       },
     //     }).then((res) => (this.likedTracks = res.data))
     // }
-    if(isLogin == true){
-      try{
-        let data = this.$axios({
-          methods: 'get',
-          url: 'http://localhost:4000/api/user/getLikes',
-          data: data,
-          headers: {
-            Authorization: Cookies.get("auth._token.local")
-          }
-        })
-        this.likedTracks = data
-        return data
-      }catch (e){
-        console.log(e)
-      }
-    }
   },
 };
 </script>

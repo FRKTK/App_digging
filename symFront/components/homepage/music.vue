@@ -38,8 +38,7 @@ import Cookies from "js-cookie";
 
 export default {
   props: {
-    tracks: Object,
-    likes: Array
+    tracks: Object
   },
   data() {
     return {
@@ -50,8 +49,7 @@ export default {
       userId: this.tracks.UserId,
       user: {
         username: this.tracks.User.username,
-      },
-      liked: []
+      }
     };
   },
   components: {
@@ -59,9 +57,10 @@ export default {
     SongControlComponent,
   },
   mounted() {
-    var getLikes = this.likes
-    getLikes.then((res) => this.liked = res.data)
-    console.log(this.liked)
+    // Like pas fait
+    // var getLikes = this.likes
+    // getLikes.then((res) => this.liked = res.data)
+    // console.log(this.liked)
   },
 };
 </script>
