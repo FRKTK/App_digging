@@ -203,5 +203,23 @@ module.exports = {
         }).catch(function(err){
             return res.status(500).json({'error':'cannot view users : ' + err });
         })
+    },
+    getUserLikes: function(req, res){
+        var headerAuth = req.headers['authorization'];
+        console.log(headerAuth);
+        var userId = jwtUtils.getUserId(headerAuth);
+
+        if(userId < 0)
+            return res.status(400).json({'error':'User not logged'})
+
+        models.Likes.findAll({
+            where : {
+                userId : userId
+            }
+        }).then(function(likes){
+            return res.status(201).json(likes)
+        }).catch(function(err){
+            return res.status(500).json({'error':'cannot get likes'});
+        })
     }
 }

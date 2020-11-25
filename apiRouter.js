@@ -13,6 +13,7 @@ exports.router = (function() {
     apiRouter.route('/user/me/').get(userController.getUserProfile);
     apiRouter.route('/users/all/').get(userController.all);
     apiRouter.route('/user/updateMe/').put(userController.updateUserProfile);
+    apiRouter.route('/user/getLikes/').get(userController.getUserLikes);
     //Tracks routes
     apiRouter.route('/track/add/').post(tracksController.add);
     apiRouter.route('/track/').get(tracksController.all);

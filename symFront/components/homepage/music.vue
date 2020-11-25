@@ -16,7 +16,7 @@
                   <small class="text-muted">add by : {{ user.username }}</small>
                   <NameSongComponent :artist="artist" :song="track" />
                   <SongControlComponent />
-                  <SongStatComponent />
+                  
                 </b-card-text>
               </b-card-body>
             </b-col>
@@ -29,32 +29,39 @@
 <script>
 import NameSongComponent from "@/components/musicControl/name";
 import SongControlComponent from "@/components/musicControl/control";
-import SongStatComponent from "@/components/musicControl/stat";
 import { BRow, BCard, BCol } from "bootstrap-vue";
 import { mapState } from "vuex";
 import axios from "axios";
+import Cookies from "js-cookie";
+
+
 
 export default {
   props: {
-    tracks: {
-      type: Object,
-    },
+    tracks: Object,
+    likes: Array
   },
   data() {
     return {
       track: this.tracks.link,
       artist: this.tracks.User.username,
       song: "",
+      trackId: this.tracks.id,
       userId: this.tracks.UserId,
       user: {
         username: this.tracks.User.username,
       },
+      liked: []
     };
   },
   components: {
     NameSongComponent,
     SongControlComponent,
-    SongStatComponent,
+  },
+  mounted() {
+    var getLikes = this.likes
+    getLikes.then((res) => this.liked = res.data)
+    console.log(this.liked)
   },
 };
 </script>
