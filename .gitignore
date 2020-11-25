@@ -1,5 +1,5 @@
 /public
 node_modules
-config/
-bin/
-utils/
+config
+bin
+utils
