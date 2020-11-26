@@ -32,7 +32,6 @@
         </b-modal>
       </b-navbar-nav>
     </b-navbar>
-
   </client-only>
 </template>
 
@@ -70,8 +69,8 @@ nav {
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.15);
 
   a {
-    //color: #ebf5fb;
-    //font-weight: 800;
+    color: #ebf5fb;
+    font-weight: 700;
   }
 
   span.userIcon{
