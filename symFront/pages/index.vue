@@ -28,9 +28,9 @@ export default {
     };
   },
   async fetch() {
-    this.tracks = await fetch("http://localhost:4000/api/track").then((res) =>
+    this.tracks = await fetch("http://localhost:4000/api/track?fields=id,link,userId").then((res) =>
       res.json()
-    );
+    ).catch((err) => console.log(err));
   },
   methods: {},
   mounted() {  },

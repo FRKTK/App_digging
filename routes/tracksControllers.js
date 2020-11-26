@@ -89,7 +89,8 @@ module.exports = {
         var limit = parseInt(req.query.limit);
         var offset = parseInt(req.query.offset);
         var order = req.query.order;
-
+        console.log('----- FIELDS -----');
+        console.log(fields)
 
         models.Link.findAll({
             // order: [(order != null) ? order.split(':') : ['title', 'ASC']],
@@ -107,6 +108,7 @@ module.exports = {
               res.status(404).json({ "error": "no links found" });
             }
           }).catch(function(err) {
+              console.log('----- ERROR ----')
             console.log(err);
             res.status(500).json({ "error": "invalid fields" });
           });

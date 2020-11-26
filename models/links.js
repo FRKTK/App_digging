@@ -9,8 +9,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: {
         allowNull: false
       }
-    })
-    models.Link.hasMany(models.Likes)
+    }),
+    models.Link.hasMany(models.Likes),
+    models.Link.hasMany(models.Tags)
   };
   return Link;
 };

@@ -69,7 +69,9 @@ export default {
   },
   methods: {
   },
-  mounted() {  },
+  mounted() { 
+    console.log(this.tracks)
+   },
 };
 </script>
 
