@@ -17,7 +17,6 @@
             @click="showModal"
             v-if="!this.$store.getters.isAuthenticated"
             >Log in</b-button>
-          <!--<nuxt-link to="/user" v-else>My Profile</nuxt-link>-->
             
         <b-nav-item-dropdown right v-else>
           <!-- Using 'button-content' slot -->
