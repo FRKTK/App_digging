@@ -2,7 +2,7 @@
   <b-container tag="div" class="mt-5" fluid>
     <b-row class="justify-content-md-center mt-5 w-100">
         <b-col lg="6">
-            <b-card title="Card title" >
+            <b-card title="Card title">
                 <songForm />
             </b-card>
         </b-col>
