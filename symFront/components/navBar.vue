@@ -5,6 +5,9 @@
         <b-nav-item>
           <nuxt-link to="/">Home</nuxt-link>
         </b-nav-item>
+        <b-nav-item>
+          <nuxt-link to="/add" v-if="this.$store.getters.isAuthenticated">Ajouter une musique</nuxt-link>
+        </b-nav-item>
         <b-nav-item v-if="this.$store.getters.isAdmin == 1">
           <nuxt-link to="/admin">Administration</nuxt-link>
         </b-nav-item>
