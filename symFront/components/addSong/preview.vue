@@ -1,12 +1,17 @@
 <template>
-    <div>
-        Hello World
-    </div>
+  <div>
+
+  </div>
 </template>
 
 <script>
+import {  } from "bootstrap-vue";
     export default {
-        
+        data() {
+            return {
+                name: '',
+            }
+        },
     }
 </script>
 
