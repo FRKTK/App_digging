@@ -56,7 +56,7 @@ export default {
   async fetch(){
     const isLogin = this.$store.state.auth.loggedIn;
     if (isLogin == true) {
-      this.likedTracks = await fetch("http://localhost:4000/api/user/getLikes", {
+      this.likedTracks = await fetch(process.env.apiUrl + "/user/getLikes", {
           headers: {
             Authorization: Cookies.get("auth._token.local"),
           },

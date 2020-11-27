@@ -52,8 +52,11 @@ export default {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: 'http://localhost:4000',
+    baseURL: 'http://localhost:4000/',
     credentials: false
+  },
+  env: {
+    apiUrl: 'http://localhost:4000/api'
   },
   //Auth form
   auth: {
