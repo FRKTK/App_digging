@@ -4,6 +4,12 @@
         <b-col lg="6">
             <b-card title="Card title">
                 <songForm />
+
+              <div>
+                <b-badge variant="dark" class="ml-1"  v-for="(tagName, i) in tags" :key="i" :tagId="i">
+                    {{ tagName }} <b-icon-x @click="remove(i)" :removeId="i"></b-icon-x> 
+                </b-badge> 
+              </div>
             </b-card>
         </b-col>
     </b-row>
@@ -18,19 +24,30 @@
 </template>
 
 <script>
-//import preview from "@/components/addSong/preview";
 import preview from "@/components/addSong/preview";
 import songForm from "@/components/addSong/songForm";
-import { BCol, BContainer, BRow, BCard } from 'bootstrap-vue';
+import { BCol, BContainer, BRow, BCard, BIconX } from 'bootstrap-vue';
 
 export default {
   name: "AddSong",
-  components: { preview, songForm },
+  components: { preview, songForm, BCol, BContainer, BRow, BCard, BIconX  },
   data() {
-    return {};
+    return {
+      tags: [],
+    };
+  },
+  methods: {
+    remove(index){
+        this.tags.splice(index, 1)
+    }
+  },
+  mounted() {
+    this.$root.$on('tagName', (res => this.tags.push(res)))
   },
 };
 </script>
 
 <style lang="scss" scoped>
+  .badge{
+  }
 </style>

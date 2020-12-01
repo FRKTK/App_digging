@@ -8,15 +8,7 @@
     >
       <b-form-input id="input-1" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ ou https://youtu.be/dQw4w9WgXcQ" trim></b-form-input>
     </b-form-group>
-    <b-form-group
-      id="fieldset-1"
-      label="Genre :"
-      label-for="input-1"
-      valid-feedback="Thank you!"
-    >
-      <b-form-input id="input-2" placeholder="Rock, Techno..." v-model="tag" @input="addTag" trim></b-form-input>
-    </b-form-group>
-    <styleTag :tagName="tagName" />
+    <styleTag />
   </div>
 </template>
 
@@ -31,17 +23,9 @@ export default {
   data() {
     return {
       name: "SongForm",
-      tagName: '',
-      tag: ''
     };
   },
   methods: {
-    addTag(event){
-      if(!this.tag){
-
-      }
-      this.tagName = this.tag
-    }
   },
 };
 </script>
