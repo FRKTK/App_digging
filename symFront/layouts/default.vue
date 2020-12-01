@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="application">
     <NavBar />
     <nuxt />
   </div>
@@ -64,5 +64,8 @@ html {
 }
 body{
   background-color: #EBF5FB;
+}
+#application{
+  margin-top: 100px;
 }
 </style>

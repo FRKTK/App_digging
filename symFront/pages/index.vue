@@ -38,9 +38,6 @@ export default {
 </script>
 
 <style>
-#app{
-  padding-top: 70px;
-}
 .container {
   margin: 0 auto;
   min-height: 100vh;
