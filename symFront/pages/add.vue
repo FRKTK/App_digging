@@ -1,21 +1,23 @@
 <template>
   <b-container tag="div" class="mt-5" fluid>
-    <b-row class="justify-content-md-center mt-5 w-100">
+    <b-row class="justify-content-md-center mt-5">
         <b-col lg="6">
-            <b-card title="Card title">
-                <songForm />
+            <b-card header="Formulaire d'ajout">
 
+                <songForm />
+                
               <div>
                 <b-badge variant="dark" class="ml-1"  v-for="(tagName, i) in tags" :key="i" :tagId="i">
                     {{ tagName }} <b-icon-x @click="remove(i)" :removeId="i"></b-icon-x> 
                 </b-badge> 
               </div>
+              <template #footer>
+                <b-button variant="success" @click="addSong">Envoyer</b-button>
+              </template>
             </b-card>
         </b-col>
-    </b-row>
-    <b-row class="justify-content-md-center mt-3 w-100">
         <b-col lg="6">
-            <b-card title="Card title" sub-title="Card subtitle">
+            <b-card title="Prévisualisation">
                 <preview />
             </b-card>
         </b-col>
@@ -26,7 +28,7 @@
 <script>
 import preview from "@/components/addSong/preview";
 import songForm from "@/components/addSong/songForm";
-import { BCol, BContainer, BRow, BCard, BIconX } from 'bootstrap-vue';
+import { BCol, BContainer, BRow, BCard, BIconX, BButton } from 'bootstrap-vue';
 
 export default {
   name: "AddSong",
@@ -37,6 +39,10 @@ export default {
     };
   },
   methods: {
+    addSong(){
+      this.$root.$emit('submitSong')
+      console.log(this.tags)
+    },
     remove(index){
         this.tags.splice(index, 1)
     }

@@ -6,7 +6,7 @@
       label-for="input-1"
       valid-feedback="Thank you!"
     >
-      <b-form-input id="input-1" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ ou https://youtu.be/dQw4w9WgXcQ" trim></b-form-input>
+      <b-form-input id="input-1" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ ou https://youtu.be/dQw4w9WgXcQ" v-model="input" trim></b-form-input>
     </b-form-group>
     <styleTag />
   </div>
@@ -23,9 +23,16 @@ export default {
   data() {
     return {
       name: "SongForm",
+      link: ''
     };
   },
   methods: {
+  },
+  mounted() {
+    this.$root.$on('submitSong', function(){
+      console.log(this.input)
+      // this.$root.$emit('songName', this.link)
+    })
   },
 };
 </script>
