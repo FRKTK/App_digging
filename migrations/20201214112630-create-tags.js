@@ -8,17 +8,17 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      linkId: {
+      tagName: {
+        type: Sequelize.STRING,
         allowNull: false,
+      },
+      linkId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
         references: {
           model: 'Links',
           key: 'id'
         }
-      },
-      tagName: {
-        allowNull: false,
-        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

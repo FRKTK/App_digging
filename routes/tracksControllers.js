@@ -127,13 +127,18 @@ module.exports = {
 
         asyncLib.waterfall([
             function(done){
+                // Problème à ce niveau, n'arrive pas à verifier LinkId (le rajoute à la field list alors qu'il y est pas)
+                console.log('-----------------')
+                console.log(req.params)
                 models.Link.findOne({
+                    attributes: ['id'],
                     where: { id: trackId }
                 })
                 .then(function(trackFound){
                     done(null, trackFound);
                 })
                 .catch(function(err){
+                    console.log(err)
                     return res.status(500).json({ 'error': 'unable to verify track' });
                 });
             },
@@ -208,5 +213,57 @@ module.exports = {
             }
           })
     },
-    unlike: function(req, res){}
+    unlike: function(req, res){},
+    tag: function(req, res){
+        var headerAuth = req.headers['authorization'];
+        var userId = jwtUtils.getUserId(headerAuth);
+
+        var trackId = parseInt(req.params.trackId)
+        var tags = req.params.tag
+        console.log(req.params)
+
+        if(trackId < 0){
+            return res.status(400).json({'error':'invalid parameters trackId'})
+        }
+
+        asyncLib.waterfall([
+            function(done){
+                console.log('Async Waterfall start')
+                models.Link.findOne({
+                    attributes: ['id'],
+                    where: { id: trackId }
+                })
+                .then(function(trackFound){
+                    done(null, trackFound);
+                })
+                .catch(function(err){
+                    console.log(err)
+                    return res.status(500).json({ 'error': 'unable to verify track ' });
+                });
+            },
+            function(trackFound, done){
+                console.log(models.Tags.create({
+                    linkId: trackFound.id
+                }))
+                    var newTags = models.Tags.create({
+                        linkId: trackFound.id,
+                        tagName: tags
+                    })
+                    .then(function(newTags){
+                        done(newTags);
+                    })
+                    .catch(function(err){
+                        return res.status(500).json({ 'error': 'unable to add tags : ' + err  });
+                    });
+            }
+        ], function(newTags) {
+            if (newTags) {
+                return res.status(201).json({
+                    'tag Id ' : newTags.id
+                });
+            } else {
+                return res.status(500).json({ 'error': 'cannot add tag' });
+            }
+          })
+    }
 }
