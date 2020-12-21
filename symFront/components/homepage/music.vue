@@ -15,7 +15,7 @@
                 <b-card-text>
                   <small class="text-muted">add by : {{ user.username }}</small>
                   <NameSongComponent :artist="artist" :song="track" />
-                  <SongControlComponent :like='likedTracks' :track='trackId'/>
+                  <SongControlComponent :liked="liked" :track='track'/>
                 </b-card-text>
               </b-card-body>
             </b-col>
@@ -37,35 +37,28 @@ import Cookies from "js-cookie";
 
 export default {
   props: {
-    tracks: Object,
-    like: Object
+    track: Object,
+    liked: Boolean
   },
+  name: 'MusiComponent',
   data() {
     return {
-      track: this.tracks.link,
-      artist: this.tracks.User.username,
+      artist: this.track.User.username,
       song: "",
-      trackId: this.tracks.id,
-      userId: this.tracks.UserId,
+      trackId: this.track.id,
+      userId: this.track.UserId,
       user: {
-        username: this.tracks.User.username,
+        username: this.track.User.username,
       },
       likedTracks: []
     };
   },
-  async fetch(){
-    const isLogin = this.$store.state.auth.loggedIn;
-    if (isLogin == true) {
-      this.likedTracks = await fetch(process.env.apiUrl + "/user/getLikes", {
-          headers: {
-            Authorization: Cookies.get("auth._token.local"),
-          },
-        }).then((res) => res.json())
-    }
-  },
+
   components: {
     NameSongComponent,
     SongControlComponent,
+  },
+  computed: {
   },
   methods: {
   },

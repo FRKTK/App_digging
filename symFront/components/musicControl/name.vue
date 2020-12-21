@@ -1,5 +1,5 @@
 <template>
-        <p>{{artist}} - {{song}}</p>
+        <p>{{artist}} - {{song.link}}</p>
 </template>
 
 <script>
@@ -7,7 +7,9 @@
         props:{
             artist: '',
             song: ''
-        }
+        },
+        mounted() {
+        },
     }
 </script>
 

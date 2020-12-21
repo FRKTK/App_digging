@@ -211,7 +211,8 @@ module.exports = {
 
         if(userId < 0)
             return res.status(400).json({'error':'User not logged'})
-
+        
+        console.log(userId)
         models.Likes.findAll({
             where : {
                 userId : userId
@@ -221,5 +222,32 @@ module.exports = {
         }).catch(function(err){
             return res.status(500).json({'error':'cannot get likes'});
         })
+    },
+    like: function(req, res) {
+        var headerAuth = req.headers['authorization'];
+        var userId = jwtUtils.getUserId(headerAuth);
+        var linkId = req.body.trackId
+        if(userId < 0)
+            return res.status(400).json({'error':'User not logged'})
+
+        var isLiked = models.Likes.findOne({
+            attributes: ['LinkId','UserId'],
+            where: { UserId: userId, LinkId: linkId }
+        })
+
+        if (isLiked) {
+
+        } else {
+            models.Likes.create({
+                UserId: 1,
+                LinkId: 1
+            })
+            .then(function(like){
+                return res.status(201).json(like)
+            }).catch(function(err){
+                return res.status(500).json({'error':'cannot add user before last : '+ err});
+            })
+        }
+          
     }
 }

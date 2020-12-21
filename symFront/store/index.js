@@ -13,6 +13,9 @@ export const mutations = {
 }
 
 export const getters = {
+  user (state) {
+    return state.auth.user
+  },
   isAuthenticated (state) {
     return state.auth.loggedIn
   },

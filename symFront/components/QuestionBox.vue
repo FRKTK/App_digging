@@ -46,7 +46,7 @@
             selectAnswer(index){
                 this.selectedIndex = index
                 console.log(index);
-            }
+            },
             shuffleAnswers(){
                 let answers = [...this.currentQuestion.incorrect_answers, this.currentQuestion.correct_answer]
             }

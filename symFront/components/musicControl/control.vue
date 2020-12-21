@@ -1,11 +1,13 @@
 <template>
   <div class="controls">
-    <b-button variant="success" name="up" v-if="isSongLike(this.like) == true">
-      <b-icon-heart-fill></b-icon-heart-fill>
+    <b-button
+      @click="like()"
+      variant="success" name="up">
+      <b-icon-heart-fill v-if="isLiked"></b-icon-heart-fill>
+      <b-icon-heart v-else></b-icon-heart>
+
     </b-button>
-    <b-button variant="success" name="up" v-else>
-      <b-icon-heart></b-icon-heart>
-    </b-button>
+
     <b-button variant="light" name="other">
       <b-icon-three-dots-vertical></b-icon-three-dots-vertical>
     </b-button>
@@ -23,6 +25,7 @@ import {
 } from "bootstrap-vue";
 
 export default {
+  name: 'SongController',
   components: {
     BIcon,
     BIconArrowUp,
@@ -36,31 +39,27 @@ export default {
     event: "change",
   },
   props: {
-    controler: {
-      type: String,
-      require: true,
+    track:  {
+      type: Object
     },
-    like: {
-      type: Array
-    },
-    track: Number
+    liked: {
+      type: Boolean
+    }
   },
   data() {
     return {
       name: "",
+      isLiked: this.liked,
       trackId: this.track
     };
   },
   methods: {
-    isSongLike(likeArray){
-      let i
-      for(i in likeArray){
-        let like = likeArray[i]
-        let linkId = like.LinkId
-        if(linkId == this.trackId){ 
-          return true
-        }        
-      }
+    like() {
+      this.$axios.post(process.env.apiUrl + "/track/"+this.track.id+"/like/")
+      .then((res) =>{
+        this.isLiked = res.data.id ? true : false
+      })
+      .catch((err) => console.log(err));
     }
   },
   mounted() {

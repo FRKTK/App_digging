@@ -3,9 +3,14 @@
     <b-container class="main">
       <div>
         <client-only>
-          <musicComponent v-for="(track, i) in tracks" :key="i" :tracks="track" />
+         <div
+            v-if="tracks.length && likedTracks.length">
+            <musicComponent 
+              v-for="(track, i) in tracks" :key="i" 
+              :track="track"
+              :liked="isLiked(track.id)" />
+            </div>
         </client-only>
-        
       </div>
     </b-container>
   </div>
@@ -25,16 +30,39 @@ export default {
   data() {
     return {
       tracks: [],
+      likedTracks: []
     };
   },
   async fetch() {
-    this.tracks = await fetch(process.env.apiUrl + "/track?fields=id,link,userId").then((res) =>
-      res.json()
-    ).catch((err) => console.log(err));
+  
   },
-  methods: {},
-  mounted() {  },
-};
+  computed: {
+  },
+  methods: {
+    isLiked(id)  {
+      if(this.likedTracks.length) {
+        return Object.values(this.likedTracks).find(t => t.LinkId == id) ? true : false
+      }
+      return false
+    }
+  },
+  mounted() {
+    axios.get(process.env.apiUrl + "/track?fields=id,link,userId").then((res) =>
+      this.tracks = res.data
+    ).catch((err) => console.log(err));
+    const isLogin = this.$store.state.auth.loggedIn;
+    if (isLogin == true) {
+      axios.get(process.env.apiUrl + "/user/getLikes", {
+          headers: {
+            Authorization: Cookies.get("auth._token.local"),
+          },
+        }).then((res) => {
+          this.likedTracks = res.data
+        })
+    }
+  }
+
+}
 </script>
 
 <style>
