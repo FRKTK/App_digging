@@ -3,8 +3,9 @@
     <b-container fluid class="main">
       <div>
         <client-only>
+          <!-- && likedTracks.length pour v-if -->
          <div
-            v-if="tracks.length && likedTracks.length">
+            v-if="tracks.length"> 
             <musicComponent 
               v-for="(track, i) in tracks" :key="i" 
               :track="track"

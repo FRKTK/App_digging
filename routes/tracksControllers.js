@@ -33,9 +33,6 @@ module.exports = {
             return res.status(400).json({'error':'missing parameters'});
         }
 
-        console.log('----- Add link -----')
-        console.log('userId : ' + userId    )
-        console.log('--------------------')
         asyncLib.waterfall([
             function(done){
                 models.User.findOne({
@@ -43,7 +40,6 @@ module.exports = {
                     where: { id: userId }
                 })
                 .then(function(userFound){
-                    console.log('Link : ' + link);
                     done(null, userFound);
                 })
                 .catch(function(err){
@@ -52,8 +48,6 @@ module.exports = {
                 })
             },
             function(userFound, done){
-                console.log('----- Parse link -----')
-                console.table(parseYoutube(req.body.link));
                 if(userFound){
                     var verifLink = parseYoutube(req.body.link);
                     var link = verifLink.id
@@ -64,7 +58,6 @@ module.exports = {
                             link: link,
                             UserId: userId
                         }).then(function(newLink){
-                            console.log('then2');
                             done(newLink);
                         }).catch(function(err){
                             console.log('error ' + err)
@@ -73,7 +66,7 @@ module.exports = {
                         return res.status(403).json({'error':'not a youtube link'})
                     }
                 }else{
-                    return res.status(404).json({'error':'user not found + ' + err});
+                    return res.status(404).json({'error':'user not found '});
                 }
             }
         ], function(newLink){
@@ -219,8 +212,7 @@ module.exports = {
         var userId = jwtUtils.getUserId(headerAuth);
 
         var trackId = parseInt(req.params.trackId)
-        var tags = req.params.tag
-        console.log(req.params)
+        var tags = req.body.tags
 
         if(trackId < 0){
             return res.status(400).json({'error':'invalid parameters trackId'})
@@ -228,7 +220,78 @@ module.exports = {
 
         asyncLib.waterfall([
             function(done){
-                console.log('Async Waterfall start')
+                models.User.findOne({
+                    attributes: ['id'],
+                    where: { id: userId }
+                })
+                .then(function(userFound){
+                    done(null, userFound)
+                })
+                .catch(function(err){
+                    return res.status(500).json({'error': 'unable to find user'})
+                })
+            },
+            function(userFound, done){
+                models.Link.findOne({
+                    attributes: ['id'],
+                    where: { id: trackId }
+                })
+                .then(function(trackFound){
+                    done(null, userFound, trackFound);
+                })
+                .catch(function(err){
+                    return res.status(500).json({ 'error': 'unable to verify track ' });
+                });
+            },
+            function(userFound, trackFound, done){
+                models.Tags.findOne({
+                    attributes: ['linkId'],
+                    where: { linkId: trackId }
+                })
+                .then(function(tagFound){
+                    done(null, userFound, trackFound, tagFound);
+                })
+                .catch(function(err){
+                    return res.status(500).json({ 'error': 'unable to verify track ' });
+                });
+            },
+            function(userFound, trackFound, tagFound, done){
+                if(!tagFound){
+                    var newTags = models.Tags.create({
+                        linkId: trackId,
+                        tagName: tags
+                    })
+                    .then(function(newTags){
+                        done(newTags);
+                    })
+                    .catch(function(err){
+                        return res.status(500).json({ 'error': 'unable to add tags : ' + err  });
+                    });
+                }else{
+                    return res.status(500).json({ 'error': 'Song already tagged'});
+                }
+                    
+            }
+        ], function(newTags) {
+            if (newTags) {
+                return res.status(201).json({
+                    'tag Id ' : newTags.id,
+                    'tags' : newTags.tagName
+                });
+            } else {
+                return res.status(500).json({ 'error': 'cannot add tag' });
+            }
+          })
+    },
+    getTags: function(req, res){
+        var trackId = parseInt(req.params.trackId)
+
+        if(trackId <= 0){
+            return res.status(400).json({'error':'invalid parameters trackId'})
+        }
+
+        asyncLib.waterfall([
+            function(done){
                 models.Link.findOne({
                     attributes: ['id'],
                     where: { id: trackId }
@@ -238,31 +301,32 @@ module.exports = {
                 })
                 .catch(function(err){
                     console.log(err)
-                    return res.status(500).json({ 'error': 'unable to verify track ' });
+                    return res.status(500).json({ 'error': 'unable to verify track' });
                 });
             },
             function(trackFound, done){
-                console.log(models.Tags.create({
-                    linkId: trackFound.id
-                }))
-                    var newTags = models.Tags.create({
-                        linkId: trackFound.id,
-                        tagName: tags
+                if(trackFound){
+                    models.Tags.findOne({
+                        attributes: ['id', 'linkId','tagName'],
+                        where: {
+                            linkId: trackId,
+                        }
                     })
-                    .then(function(newTags){
-                        done(newTags);
+                    .then(function(tagsFound){
+                        done(tagsFound);
                     })
                     .catch(function(err){
-                        return res.status(500).json({ 'error': 'unable to add tags : ' + err  });
+                        return res.status(500).json({ 'error': 'unable to verify is already tagged' + err});
                     });
-            }
-        ], function(newTags) {
-            if (newTags) {
-                return res.status(201).json({
-                    'tag Id ' : newTags.id
-                });
+                }else{
+                    res.status(404).json({ 'error': 'user not exist' });
+                }
+            },
+        ], function(tagsFound) {
+            if (tagsFound) {
+                return res.status(201).json(tagsFound);
             } else {
-                return res.status(500).json({ 'error': 'cannot add tag' });
+                return res.status(500).json({ 'error': 'cannot get tags' });
             }
           })
     }
