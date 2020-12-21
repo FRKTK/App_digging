@@ -103,7 +103,7 @@ module.exports = {
             }]
         }).then(function(links) {
             if (links) {
-              res.status(200).json(links);
+              return res.status(200).json(links);
             } else {
               res.status(404).json({ "error": "no links found" });
             }

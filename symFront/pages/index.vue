@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-container class="main">
+    <b-container fluid class="main">
       <div>
         <client-only>
          <div

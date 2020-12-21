@@ -1,14 +1,10 @@
 <template>
     <b-row class="justify-content-md-center mt-3 w-100">
-      <b-col md="12">
+      <b-col xs="12" sm="12" md="12" lg="12">
         <b-card no-body class="overflow-hidden" lg="4">
           <b-row no-gutters>
             <b-col md="4">
-              <b-card-img
-                src="https://picsum.photos/200/200/?image=21"
-                alt="Image"
-                class="rounded-0"
-              ></b-card-img>
+              <VideoComponent :song="track" />
             </b-col>
             <b-col md="8">
               <b-card-body style="text-align: left">
@@ -28,6 +24,7 @@
 <script>
 import NameSongComponent from "@/components/musicControl/name";
 import SongControlComponent from "@/components/musicControl/control";
+import VideoComponent from "@/components/musicControl/video";
 import { BRow, BCard, BCol } from "bootstrap-vue";
 import { mapState } from "vuex";
 import axios from "axios";
@@ -57,12 +54,14 @@ export default {
   components: {
     NameSongComponent,
     SongControlComponent,
+    VideoComponent
   },
   computed: {
   },
   methods: {
   },
   mounted() { 
+
    },
 };
 </script>
