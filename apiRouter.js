@@ -1,6 +1,7 @@
 var express = require('express');
 var userController = require('./routes/userController');
 var tracksController = require('./routes/tracksControllers');
+const adminControllers = require('./routes/adminControllers');
 
 //router
 
@@ -20,6 +21,12 @@ exports.router = (function() {
     apiRouter.route('/track/:trackId/like/').post(tracksController.like);
     apiRouter.route('/track/:trackId/tag/').post(tracksController.tag);
     apiRouter.route('/track/:trackId/tags').get(tracksController.getTags);
+    //Admins routes
+    apiRouter.route('/admin/tracks').get(adminControllers.getTracks);
+    apiRouter.route('/admin/users').get(adminControllers.getUsers);
+    apiRouter.route('/admin/tracks/delete/:trackId').delete(adminControllers.delTracks);
+    apiRouter.route('/admin/users/delete/:userId').delete(adminControllers.delUsers);
+    apiRouter.route('/admin/users/info/:userId').get(adminControllers.userInfo);
     //App routes
     return apiRouter;
 })();
