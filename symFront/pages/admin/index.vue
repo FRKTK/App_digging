@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import musicComponent from "@/components/homepage/music";
+import musicComponent from "@/components/admin/Music";
 import adminLayout from "@/layouts/admin";
 import { BContainer } from "bootstrap-vue";
 import axios from "axios";

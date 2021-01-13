@@ -136,8 +136,9 @@ module.exports = {
                             where: { id: trackId },
                         }).then(function(trackFound) {
                             if (trackFound) {
+                                console.log('----- TRACKFOUND -----')
                                 console.log(trackFound)
-                              done(null, trackFound);
+                                done(null, trackFound);
                             } else {
                               res.status(404).json({ "error": "no link found" });
                             }
@@ -147,15 +148,20 @@ module.exports = {
                             res.status(500).json({ "error": "invalid fields" });
                           });
                     }else{
-                        return res.status(500).json({'error': 'User is not admin'})
+                        return res.status(500).json({'error': 'User is not admin' + err })
                     }
                 }
             },
             function(trackFound, done){
+                console.log('into trackfound')
                 models.Link.destroy({
                     where: { id: trackId }
-                }).then((linkDeleted) => done(linkDeleted))
-                .catch((err) => res.status(500).json({ "error": "cannot delete track" }))
+                }).then((linkDeleted) => 
+                    done(linkDeleted)
+                )
+                .catch((err) => 
+                res.status(500).json({ "error": "cannot delete track" + err})
+                )
             }],
             function(linkDeleted){
                 if(linkDeleted){
