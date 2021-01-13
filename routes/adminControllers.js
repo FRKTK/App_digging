@@ -154,8 +154,9 @@ module.exports = {
             },
             function(trackFound, done){
                 console.log('into trackfound')
-                models.Link.destroy({
-                    where: { id: trackId }
+                trackFound.update({
+                    where: { id: trackId },
+                    visible: 0
                 }).then((linkDeleted) => 
                     done(linkDeleted)
                 )
@@ -185,7 +186,7 @@ module.exports = {
                     where: { id: userId }
                 })
                 .then((userFound) => done(null, userFound))
-                .catch((err) => res.status(500).json({ 'error': 'unable to verify user - error : ' + err }));
+                .catch((err) => res.status(500).json({ 'error': 'unable to verify user : ' + err }));
             },
             function(userFound, done){
                 if(userFound){
@@ -211,10 +212,11 @@ module.exports = {
                 }
             },
             function(deleteUserFound, done){
-                models.User.destroy({
-                    where: { id: userIdToDelete }
+                deleteUserFound.update({
+                    where: { id: userIdToDelete },
+                    deleted: 1
                 }).then((userDeleted) => done(userDeleted))
-                .catch((err) => res.status(500).json({ "error": "cannot delete track" }))
+                .catch((err) => res.status(500).json({ "error": "cannot delete user" }))
             }],
             function(userDeleted){
                 if(userDeleted){
