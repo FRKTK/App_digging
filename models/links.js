@@ -2,6 +2,7 @@
 module.exports = (sequelize, DataTypes) => {
   const Link = sequelize.define('Link', {
     link: DataTypes.STRING,
+    visible: DataTypes.BOOLEAN
   }, {});
   Link.associate = function(models) {
     // associations can be defined here
