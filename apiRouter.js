@@ -24,8 +24,8 @@ exports.router = (function() {
     //Admins routes
     apiRouter.route('/admin/tracks').get(adminControllers.getTracks);
     apiRouter.route('/admin/users').get(adminControllers.getUsers);
-    apiRouter.route('/admin/tracks/delete/:trackId').delete(adminControllers.delTracks);
-    apiRouter.route('/admin/users/delete/:userId').delete(adminControllers.delUsers);
+    apiRouter.route('/admin/tracks/delete/:trackId').put(adminControllers.delTracks);
+    apiRouter.route('/admin/users/delete/:userId').put(adminControllers.delUsers);
     apiRouter.route('/admin/users/info/:userId').get(adminControllers.userInfo);
     //App routes
     return apiRouter;
