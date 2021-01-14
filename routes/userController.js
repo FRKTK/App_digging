@@ -225,28 +225,47 @@ module.exports = {
     like: function(req, res) {
         var headerAuth = req.headers['authorization'];
         var userId = jwtUtils.getUserId(headerAuth);
-        var linkId = req.body.trackId
+        var linkId = parseInt(req.params.trackId)
+
         if(userId < 0)
             return res.status(400).json({'error':'User not logged'})
 
-        var isLiked = models.Likes.findOne({
-            attributes: ['LinkId','UserId'],
-            where: { UserId: userId, LinkId: linkId }
+
+        asyncLib.waterfall([
+            function(done){
+                models.User.findOne({
+                    where: { id: userId }
+                })
+                .then((userFound) => done(null, userFound))
+                .catch((err) => res.status(404).json({'error':'unable to find user : ' + err}))
+            },
+            function(userFound, done){
+                if(userFound){
+                    models.Link.findOne({
+                        where: { id: linkId }
+                    })
+                    .then((trackFound) => done(null, userFound, trackFound))
+                    .catch((err) => res.status(500).json({'error':'cannot find track with trackid : ' + err}))
+                }else{
+                    return res.status(500).json({'error':'unable to find user'})
+                }
+            },
+            function(userFound, trackFound, done){
+                models.Likes.findOne({
+                    attributes: ['liked'],
+                    where: { linkId: trackFound.id, userId: userFound.id }
+                })
+                .then((likeFound) => done(likeFound))
+                .catch((err) => res.status(200).json(false))
+            }
+        ],
+        function(likeFound){
+            if(likeFound.liked == true){
+                return res.status(200).json(likeFound.liked)
+            }else{
+                return res.status(200).json(likeFound.liked)
+            }
         })
-
-        if (isLiked) {
-
-        } else {
-            models.Likes.create({
-                UserId: 1,
-                LinkId: 1
-            })
-            .then(function(like){
-                return res.status(201).json(like)
-            }).catch(function(err){
-                return res.status(500).json({'error':'cannot add user before last : '+ err});
-            })
-        }
           
     }
 }

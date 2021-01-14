@@ -42,27 +42,34 @@ export default {
     track:  {
       type: Object
     },
-    liked: {
-      type: Boolean
-    }
+    // liked: {
+    //   type: Boolean
+    // }
   },
   data() {
     return {
       name: "",
-      isLiked: this.liked,
+      isLiked: '',
       trackId: this.track
     };
   },
   methods: {
     like() {
+      // set like
       this.$axios.post(process.env.apiUrl + "/track/"+this.track.id+"/like/")
-      .then((res) =>{
-        this.isLiked = res.data.id ? true : false
+      .then((res) => {
+        this.isLiked = res.data.liked ? true : false
       })
       .catch((err) => console.log(err));
+      //get if liked after the action
+      this.$axios.get(process.env.apiUrl + '/user/' + this.track.id + '/isLike/')
+      .then((res) => this.isLiked = res.data)
     }
   },
   mounted() {
+    this.$axios.get(process.env.apiUrl + '/user/' + this.track.id + '/isLike/')
+    .then((res) => this.isLiked = res.data)
+
   },
 };
 </script>

@@ -9,7 +9,8 @@
             <musicComponent 
               v-for="(track, i) in tracks" :key="i" 
               :track="track"
-              :liked="isLiked(track.id)" />
+              
+              />
             </div>
         </client-only>
       </div>
@@ -54,15 +55,15 @@ export default {
       this.tracks = res.data
     ).catch((err) => console.log(err));
     const isLogin = this.$store.state.auth.loggedIn;
-    if (isLogin == true) {
-      axios.get(process.env.apiUrl + "/user/getLikes", {
-          headers: {
-            Authorization: Cookies.get("auth._token.local"),
-          },
-        }).then((res) => {
-          this.likedTracks = res.data
-        })
-    }
+    // if (isLogin == true) {
+    //   axios.get(process.env.apiUrl + "/user/getLikes", {
+    //       headers: {
+    //         Authorization: Cookies.get("auth._token.local"),
+    //       },
+    //     }).then((res) => {
+    //       this.likedTracks = res.data
+    //     })
+    // }
   }
 
 }
