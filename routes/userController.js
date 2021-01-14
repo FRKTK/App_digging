@@ -74,7 +74,6 @@ module.exports = {
         })
         
     },
-
     login: function(req, res){
         // Params
         var email = req.body.email;
@@ -128,7 +127,6 @@ module.exports = {
             }
         })
     },
-
     getUserProfile: function(req, res){
         var headerAuth = req.headers['authorization'];
         console.log(headerAuth);
@@ -215,7 +213,8 @@ module.exports = {
         console.log(userId)
         models.Likes.findAll({
             where : {
-                userId : userId
+                userId : userId,
+                liked: 1
             }
         }).then(function(likes){
             return res.status(201).json(likes)

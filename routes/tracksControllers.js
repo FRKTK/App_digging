@@ -93,7 +93,8 @@ module.exports = {
             include: [{
                 model: models.User,
                 attributes: [ 'username' ]
-            }]
+            }],
+            where: { visible: 1 }
         }).then(function(links) {
             if (links) {
               return res.status(200).json(links);
@@ -162,7 +163,7 @@ module.exports = {
                         done(null, trackFound, userFound, userAlreadyLikeFound);
                     })
                     .catch(function(err){
-                        return res.status(500).json({ 'error': 'unable to verify is user already liked' });
+                        return res.status(500).json({ 'error': 'unable to verify is user already liked' + err});
                     });
                 }else{
                     res.status(404).json({ 'error': 'user not exist' });
@@ -172,28 +173,50 @@ module.exports = {
                 if(!userAlreadyLikeFound){
                     models.Likes.create({
                         LinkId: trackFound.id,
-                        UserId: userFound.id
+                        UserId: userFound.id,
+                        liked: 1
                     })
                     .then(function(trackLiked){
                         done(trackLiked);
                     })
                     .catch(function(err){
-                        console.log(err)
-                        return res.status(500).json({ 'error': 'unable to set user reaction' });
+                        return res.status(500).json({ 'error': 'unable to set user reaction' + err});
                     });
                 }else if(userAlreadyLikeFound){
-                    models.Likes.destroy({
-                        where : {
-                            LinkId: trackFound.id,
-                            UserId: userFound.id
-                        }
-                    })
-                    .then(function(trackUnLiked){
-                        done(trackUnLiked);
-                    })
-                    .catch(function(err){
-                        return res.status(500).json({ 'error': 'unable to set user reaction' });
-                    });
+                    console.log(userAlreadyLikeFound.liked)
+                    console.log('end stop')
+                    if(userAlreadyLikeFound.liked == true){
+                        //set liked to 0
+                        userAlreadyLikeFound.update({
+                            liked: 0,
+                            where : {
+                                LinkId: trackFound.id,
+                                UserId: userFound.id
+                            }
+                        })
+                        .then(function(trackUnLiked){
+                            done(trackUnLiked);
+                        })
+                        .catch(function(err){
+                            return res.status(500).json({ 'error': 'unable to set user reaction liked 0 ' + err});
+                        });
+                    }else{
+                        //set liked to 1
+                        userAlreadyLikeFound.update({
+                            liked: 1,
+                            where : {
+                                LinkId: trackFound.id,
+                                UserId: userFound.id
+                            }
+                        })
+                        .then(function(trackUnLiked){
+                            done(trackUnLiked);
+                        })
+                        .catch(function(err){
+                            return res.status(500).json({ 'error': 'unable to set user reaction liked 1' + err});
+                        });
+                    }
+                    
                 }
             }
         ], function(trackLiked, trackUnLiked) {
@@ -202,6 +225,7 @@ module.exports = {
             } else if (trackUnLiked){
                 return res.status(201).json(trackUnLiked);
             } else {
+                
                 return res.status(500).json({ 'error': 'cannot update message' });
             }
           })
@@ -329,5 +353,6 @@ module.exports = {
                 return res.status(500).json({ 'error': 'cannot get tags' });
             }
           })
-    }
+    },
+
 }
