@@ -54,7 +54,7 @@ export default {
     axios.get(process.env.apiUrl + "/track?fields=id,link,userId").then((res) =>
       this.tracks = res.data
     ).catch((err) => console.log(err));
-    const isLogin = this.$store.state.auth.loggedIn;
+    // const isLogin = this.$store.state.auth.loggedIn;
     // if (isLogin == true) {
     //   axios.get(process.env.apiUrl + "/user/getLikes", {
     //       headers: {

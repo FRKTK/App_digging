@@ -67,8 +67,12 @@ export default {
     }
   },
   mounted() {
-    this.$axios.get(process.env.apiUrl + '/user/' + this.track.id + '/isLike/')
+    const isLogin = this.$store.state.auth.loggedIn;
+    if (isLogin) {
+      this.$axios.get(process.env.apiUrl + '/user/' + this.track.id + '/isLike/')
     .then((res) => this.isLiked = res.data)
+    }
+    
 
   },
 };
