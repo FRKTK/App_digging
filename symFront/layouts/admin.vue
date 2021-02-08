@@ -1,23 +1,6 @@
 <template>
   <div>
-    <!-- <NavBar /> -->
-    <div>
-    <b-sidebar id="sidebar-no-header" visible no-header shadow>
-      <template>
-        <div class="p-3">
-          <h4 id="sidebar-no-header-title">Administration</h4>
-          <nav class="mb-3">
-            <b-nav vertical>
-              <b-nav-item active>Active</b-nav-item>
-              <b-nav-item href="#link-1">Link</b-nav-item>
-              <b-nav-item href="#link-2">Another Link</b-nav-item>
-            </b-nav>
-          </nav>
-          <b-button variant="primary" href="/" block>Close Administration</b-button>
-        </div>
-      </template>
-    </b-sidebar>
-  </div>
+    <NavBar />
     <b-container>
       <nuxt />
     </b-container>
@@ -28,7 +11,7 @@
 <script>
 import adminVue from "./admin.vue";
 import NavBar from "@/components/admin/NavBar";
-import { SidebarPlugin } from "bootstrap-vue";
+
 
 export default {
   components: {

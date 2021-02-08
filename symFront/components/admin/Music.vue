@@ -11,7 +11,7 @@
                 <b-card-text>
                   <small class="text-muted">add by : {{ user.username }} - userId: {{ track.userId }} - trackId : {{ track.id }}</small>
                   <NameSongComponent :artist="artist" :song="track" />
-                  <SongControlComponent :track='track'/>
+                  <SongControlComponent :track='track' :visible='track.visible'/>
                 </b-card-text>
               </b-card-body>
             </b-col>
@@ -60,7 +60,7 @@ export default {
   methods: {
   },
   mounted() { 
-
+    console.log(this.track.visible)
    },
 };
 </script>

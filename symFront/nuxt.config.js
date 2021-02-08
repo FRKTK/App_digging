@@ -1,6 +1,5 @@
 
 export default {
-  mode: 'universal',
   /*
   ** Headers of the page
   */
@@ -23,6 +22,7 @@ export default {
   ** Global CSS
   */
   css: [
+    '~assets/scss/styleGuide.scss'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -43,7 +43,7 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
   ],
   router: {
   },
@@ -75,6 +75,12 @@ export default {
         }
       }
     }
+  },
+  /*
+  ** Add scss
+  */
+  styleResources: {
+    scss: ['/assets/scss/*.scss']
   },
   /*
   ** Build configuration

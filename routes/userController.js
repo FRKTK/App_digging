@@ -137,7 +137,28 @@ module.exports = {
 
         models.User.findOne({
             attributes : ['id', 'email', 'username', 'isAdmin'],
-            where : { id: userId }
+            where : { id: userId },
+            include: [
+                {
+                    model: models.Likes,
+                    where: {liked: true},
+                    include: [
+                        {
+                            model: models.Link,
+                            where: {visible: true}
+                        }
+                    ]
+                },
+                {
+                    model: models.Link,
+                    where: {visible: true},
+                    include: [
+                        {
+                            model: models.Tags
+                        }
+                    ]
+                }
+            ]
         }).then(function(user){
             if(user){
                 return res.status(201).json(user);
@@ -214,7 +235,7 @@ module.exports = {
         models.Likes.findAll({
             where : {
                 userId : userId,
-                liked: 1
+                liked: true
             }
         }).then(function(likes){
             return res.status(201).json(likes)
@@ -253,7 +274,12 @@ module.exports = {
             function(userFound, trackFound, done){
                 models.Likes.findOne({
                     attributes: ['liked'],
-                    where: { linkId: trackFound.id, userId: userFound.id }
+                    where: { linkId: trackFound.id, userId: userFound.id },
+                    include: [
+                        {
+                            model: models.Link
+                        }
+                    ]
                 })
                 .then((likeFound) => done(likeFound))
                 .catch((err) => res.status(200).json(false))

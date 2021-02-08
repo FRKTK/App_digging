@@ -1,10 +1,14 @@
 <template>
   <div class="controls">
     <b-button
-      @click="like()"
-      variant="danger" name="up">
-      <b-icon-trash></b-icon-trash>
-
+      @click="delTrack()"
+      variant="danger" name="up" v-if="track.visible == true">
+      <b-icon-eye-slash-fill></b-icon-eye-slash-fill>
+    </b-button>
+    <b-button
+      @click="addTrack()"
+      variant="success" name="up" v-else>
+      <b-icon-eye-fill></b-icon-eye-fill>
     </b-button>
 
   </div>
@@ -14,6 +18,8 @@
 import {
   BIcon,
   BIconTrash,
+  BIconEyeFill,
+  BIconEyeSlashFill
 } from "bootstrap-vue";
 
 export default {
@@ -21,6 +27,8 @@ export default {
   components: {
     BIcon,
     BIconTrash,
+    BIconEyeFill,
+    BIconEyeSlashFill
   },
   model: {
     prop: "controler",
@@ -38,10 +46,17 @@ export default {
     };
   },
   methods: {
-    like() {
-      this.$axios.delete(process.env.apiUrl + "/admin/tracks/delete/"+this.track.id)
+    delTrack() {
+      this.$axios.put(process.env.apiUrl + "/admin/tracks/delete/"+this.track.id)
       .then((res) =>{
-        console.log(res)
+        this.track.visible = false
+      })
+      .catch((err) => console.log(err));
+    },
+    addTrack() {
+      this.$axios.put(process.env.apiUrl + "/admin/tracks/visible/"+this.track.id)
+      .then((res) =>{
+        this.track.visible = true
       })
       .catch((err) => console.log(err));
     }

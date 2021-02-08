@@ -1,16 +1,14 @@
 <template>
-  <div class="controls">
-    <b-button
-      @click="like()"
-      variant="success" name="up">
-      <b-icon-heart-fill v-if="isLiked"></b-icon-heart-fill>
-      <b-icon-heart v-else></b-icon-heart>
-
+  <div class="controls" @click="like()">
+    <b-button class="aam_likeBtn_liked" v-if="isLiked">
+      <b-icon-heart-fill></b-icon-heart-fill>
+      <span class="aam_likeBtn_span">In your heart</span>
     </b-button>
-
-    <b-button variant="light" name="other">
-      <b-icon-three-dots-vertical></b-icon-three-dots-vertical>
+    <b-button class="aam_likeBtn" v-else>
+      <b-icon-heart></b-icon-heart>
+      <span class="aam_likeBtn_span">Like this</span>
     </b-button>
+    
   </div>
 </template>
 
@@ -79,4 +77,30 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.aam_likeBtn{
+  width: 100%;
+  background-color: #14038C;
+  border: 3px solid #14038C;
+  line-height: 0;
+  padding: 10px 0;
+  border-radius: 10px;
+  vertical-align: middle;
+}
+.aam_likeBtn_liked{
+  width: 100%;
+  background-color: #fff;
+  border: 3px solid #14038C;
+  color: #14038C;
+  line-height: 0;
+  padding: 10px 0;
+  border-radius: 10px;
+  vertical-align: middle;
+}
+.aam_likeBtn_span{
+  display: inline-block;
+}
+.b-icon.bi{
+  vertical-align: middle!important;
+}
+
 </style>

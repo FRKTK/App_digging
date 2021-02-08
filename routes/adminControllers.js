@@ -35,6 +35,7 @@ module.exports = {
         asyncLib.waterfall([
             function(done){
                 // Vérification si user est Admin
+                console.log('admin/tracks ' + userId)
                 models.User.findOne({
                     attributes: ['id', 'isAdmin'],
                     where: { id: userId }
@@ -43,8 +44,10 @@ module.exports = {
                 .catch((err) => res.status(500).json({ 'error': 'unable to verify user - error : ' + err }));
             },
         ], function(userFound){
+            console.log(userFound.isAdmin)
                 if(userFound){
                     var isAdmin = userFound.isAdmin
+                    console.log(isAdmin)
                     if(isAdmin == true){
                         models.Link.findAll({
                             // order: [(order != null) ? order.split(':') : ['title', 'ASC']],
@@ -173,6 +176,66 @@ module.exports = {
             }
         )
     },
+    visibleTracks: function(req,res){
+        var headerAuth = req.headers['authorization'];
+        var userId = jwtUtils.getUserId(headerAuth);
+        var trackId = parseInt(req.params.trackId)
+        
+        asyncLib.waterfall([
+            function(done){
+                // Vérification si user est Admin
+                models.User.findOne({
+                    attributes: ['id', 'isAdmin'],
+                    where: { id: userId }
+                })
+                .then((userFound) => done(null, userFound))
+                .catch((err) => res.status(500).json({ 'error': 'unable to verify user - error : ' + err }));
+            },
+            function(userFound, done){
+                if(userFound){
+                    var isAdmin = userFound.isAdmin
+                    if(isAdmin == true){
+                        models.Link.findOne({
+                            where: { id: trackId },
+                        }).then(function(trackFound) {
+                            if (trackFound) {
+                                console.log('----- TRACKFOUND -----')
+                                console.log(trackFound)
+                                done(null, trackFound);
+                            } else {
+                              res.status(404).json({ "error": "no link found" });
+                            }
+                          }).catch(function(err) {
+                              console.log('----- ERROR ----')
+                            console.log(err);
+                            res.status(500).json({ "error": "invalid fields" });
+                          });
+                    }else{
+                        return res.status(500).json({'error': 'User is not admin' + err })
+                    }
+                }
+            },
+            function(trackFound, done){
+                console.log('into trackfound')
+                trackFound.update({
+                    where: { id: trackId },
+                    visible: 1
+                }).then((linkDeleted) => 
+                    done(linkDeleted)
+                )
+                .catch((err) => 
+                res.status(500).json({ "error": "cannot delete track" + err})
+                )
+            }],
+            function(linkDeleted){
+                if(linkDeleted){
+                    return res.status(201).json({'success': 'TrackId ' + trackId + ' deleted' })
+                }else{
+                    return res.status(500).json({ "error": "cannot delete track" })
+                }
+            }
+        )
+    },
     delUsers: function(req, res){
         var headerAuth = req.headers['authorization'];
         var userId = jwtUtils.getUserId(headerAuth);
@@ -247,6 +310,7 @@ module.exports = {
                     var isAdmin = userFound.isAdmin
                     if(isAdmin == true){
                         models.User.findOne({
+                            attributes: [ 'id', 'username', 'isAdmin', 'createdAt', 'updatedAt', 'deleted'],
                             where: { id: userInfoId },
                             include: [
                                 {

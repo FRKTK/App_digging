@@ -1,12 +1,17 @@
 <template>
-  <div id="application">
+  <div>
     <NavBar />
-    <nuxt />
+    <b-container fluid="lg" id="application" class="main pt-5">
+      <nuxt />
+    </b-container>
   </div>
+  
+  
 </template>
 
 <script>
 import NavBar from '@/components/navBar'
+
 export default {
   components: {
     NavBar
@@ -14,7 +19,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -66,6 +72,6 @@ body{
   background-color: #EBF5FB;
 }
 #application{
-  margin-top: 100px;
+  margin: 50px auto;
 }
 </style>

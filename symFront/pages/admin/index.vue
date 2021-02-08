@@ -34,7 +34,6 @@ export default {
   data() {
     return {
       tracks: [],
-      likedTracks: []
     };
   },
   async fetch() {
@@ -51,19 +50,13 @@ export default {
     }
   },
   mounted() {
-    axios.get(process.env.apiUrl + "/track?fields=id,link,userId").then((res) =>
+    axios.get(process.env.apiUrl + "/admin/tracks?fields=id,link,userId,visible", {
+          headers: {
+            Authorization: Cookies.get("auth._token.local"),
+          }
+    }).then((res) =>
       this.tracks = res.data
     ).catch((err) => console.log(err));
-    // const isLogin = this.$store.state.auth.loggedIn;
-    // if (isLogin == true) {
-    //   axios.get(process.env.apiUrl + "/user/getLikes", {
-    //       headers: {
-    //         Authorization: Cookies.get("auth._token.local"),
-    //       },
-    //     }).then((res) => {
-    //       this.likedTracks = res.data
-    //     })
-    // }
   }
 
 }

@@ -1,20 +1,19 @@
 <template>
-  <div id="app">
-    <b-container fluid class="main">
+  <!-- <div id="app"> -->
+    
       <div>
         <client-only>
           <!-- && likedTracks.length pour v-if -->
-         <div
-            v-if="tracks.length"> 
+          <b-row v-if="tracks.length"> 
             <musicComponent 
               v-for="(track, i) in tracks" :key="i" 
-              :track="track"
+              :track="track" :username="track.User.username"
               :liked="isLiked(track.id)" />
-            </div>
+          </b-row>
         </client-only>
       </div>
-    </b-container>
-  </div>
+    
+  <!-- </div> -->
 </template>
 
 <script>
@@ -51,16 +50,16 @@ export default {
     axios.get(process.env.apiUrl + "/track?fields=id,link,userId").then((res) =>
       this.tracks = res.data
     ).catch((err) => console.log(err));
-    const isLogin = this.$store.state.auth.loggedIn;
-    if (isLogin == true) {
-      axios.get(process.env.apiUrl + "/user/getLikes", {
-          headers: {
-            Authorization: Cookies.get("auth._token.local"),
-          },
-        }).then((res) => {
-          this.likedTracks = res.data
-        })
-    }
+    // const isLogin = this.$store.state.auth.loggedIn;
+    // if (isLogin == true) {
+    //   axios.get(process.env.apiUrl + "/user/getLikes", {
+    //       headers: {
+    //         Authorization: Cookies.get("auth._token.local"),
+    //       },
+    //     }).then((res) => {
+    //       this.likedTracks = res.data
+    //     })
+    // }
   }
 
 }

@@ -1,19 +1,30 @@
 <template>
-  <div>
-      <b-button v-b-toggle.sidebar-1>Toggle Sidebar</b-button>
-    <b-sidebar id="sidebar-1" title="Sidebar" shadow>
-      <div class="px-3 py-2">
-        <p>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-          in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-        </p>
-        <b-img src="https://picsum.photos/500/500/?image=54" fluid thumbnail></b-img>
-      </div>
+  <!-- <NavBar /> -->
+    <div>
+    <b-sidebar id="sidebar-no-header" visible no-header shadow>
+      <template>
+        <div class="p-3">
+          <h4 id="sidebar-no-header-title">Administration</h4>
+          <nav class="mb-3">
+            <b-nav vertical>
+              <b-nav-item>
+                <nuxt-link to="/admin">Dashboard</nuxt-link> 
+              </b-nav-item>
+              <b-nav-item>
+                <nuxt-link to="/admin/users">Users</nuxt-link> 
+              </b-nav-item>
+            </b-nav>
+          </nav>
+          <b-button variant="primary" href="/" block>Close Administration</b-button>
+        </div>
+      </template>
     </b-sidebar>
   </div>
 </template>
 
 <script>
+import { SidebarPlugin } from "bootstrap-vue";
+
 export default {
 }
 </script>
