@@ -1,7 +1,7 @@
 <template>
   <!-- <NavBar /> -->
     <div>
-    <b-sidebar id="sidebar-no-header" visible no-header shadow>
+    <b-sidebar id="sidebar-no-header" visible no-header shadow no-close-on-route-change>
       <template>
         <div class="p-3">
           <h4 id="sidebar-no-header-title">Administration</h4>

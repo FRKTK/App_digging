@@ -1,6 +1,7 @@
 <template>
     <div>
-        {{ user }}
+        <pre>{{ userInfo }}</pre>
+        
     </div>
 </template>
 
@@ -17,17 +18,18 @@
 
     },
     props:{
-        user: Object
+        // userInfo: ''
     },
     data() {
         return {
-
+            userInfo: ''
         }
     },
      mounted() {
-        //  this.$axios.get(process.env.apiUrl + '/admin/users/info/' + this.$route.params.id)
-        //  .then((res) => this.user = res.data)
-        //  .catch((err) => console.log(err))
+         this.$axios.get(process.env.apiUrl + '/admin/users/info/' + this.$route.params.id)
+         .then((res) => this.userInfo = res.data)
+         .catch((err) => console.log(err))
+        // console.log(this.user)
         },
     }
 </script>

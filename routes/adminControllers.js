@@ -97,7 +97,7 @@ module.exports = {
                     if(isAdmin == true){
                         models.User.findAll({
                             // order: [(order != null) ? order.split(':') : ['title', 'ASC']],
-                        attributes: ['id', 'email', 'username', 'isAdmin', 'createdAt', 'updatedAt']
+                        attributes: ['id', 'email', 'username', 'isAdmin', 'createdAt', 'updatedAt', 'deleted']
                         }).then(function(users) {
                             if (users) {
                               return res.status(200).json(users);
