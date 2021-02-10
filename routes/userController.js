@@ -154,6 +154,7 @@ module.exports = {
                     where: {visible: true},
                     include: [
                         {
+                            attributes: ['linkId', 'tagName'],
                             model: models.Tags
                         }
                     ]
@@ -166,7 +167,8 @@ module.exports = {
                 return res.status(404).json({'error':'user not found'});
             }
         }).catch(function(err){
-            return res.status(500).json({'error':'cannot fetch user'});
+            console.log(err)
+            return res.status(500).json({'error':'cannot fetch user' + err});
         });
     },
     updateUserProfile: function(req, res){

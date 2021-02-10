@@ -1,9 +1,7 @@
 <template>
     <b-list-group-item class="user" v-if="user.deleted == false">
       <nuxt-link
-        :to="'/admin/user/' + user.id"
-
-        
+        :to="'/admin/user/' + user.id"        
       >
         {{ user.username }}
       </nuxt-link>
@@ -11,9 +9,7 @@
 
     <b-list-group-item class="user deleted" v-else>
       <nuxt-link
-        :to="'/admin/user/' + user.id"
-        :userInfo="userInfo"
-        
+        :to="'/admin/user/' + user.id"        
       >
         {{ user.username }}
       </nuxt-link>

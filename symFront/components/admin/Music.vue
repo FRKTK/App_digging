@@ -9,7 +9,7 @@
             <b-col md="8">
               <b-card-body style="text-align: left">
                 <b-card-text>
-                  <small class="text-muted">add by : {{ user.username }} - userId: {{ track.userId }} - trackId : {{ track.id }}</small>
+                  <small class="text-muted">add by : <nuxt-link :to="'/admin/user/' + track.userId"   >{{ user.username }} - userId: {{ track.userId }}</nuxt-link> - trackId : {{ track.id }}</small>
                   <NameSongComponent :artist="artist" :song="track" />
                   <SongControlComponent :track='track' :visible='track.visible'/>
                 </b-card-text>

@@ -22,6 +22,7 @@ exports.router = (function() {
     apiRouter.route('/track/:trackId/like/').post(tracksController.like);
     apiRouter.route('/track/:trackId/tag/').post(tracksController.tag);
     apiRouter.route('/track/:trackId/tags').get(tracksController.getTags);
+    apiRouter.route('/track/:trackId/report').post(tracksController.report);
     //Admins routes
     apiRouter.route('/admin/tracks').get(adminControllers.getTracks);
     apiRouter.route('/admin/users').get(adminControllers.getUsers);

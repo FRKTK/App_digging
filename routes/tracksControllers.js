@@ -108,7 +108,76 @@ module.exports = {
           });
     },
     del: function(req, res){},
-    report: function(req, res){},
+    report: function(req, res){
+        var headerAuth = req.headers['authorization'];
+        var userId = jwtUtils.getUserId(headerAuth);
+
+        var trackId = parseInt(req.params.trackId)
+        var message = req.body.message
+
+        console.log('REPORT')
+
+        if(trackId <= 0){
+            return res.status(400).json({'error':'invalid parameters trackId'})
+        }
+
+        asyncLib.waterfall([
+            function(done){
+                console.log('-----------------')
+                console.log(req.params)
+                console.log(req.body)
+                models.Link.findOne({
+                    attributes: ['id'],
+                    where: { id: trackId }
+                })
+                .then(function(trackFound){
+                    done(null, trackFound);
+                })
+                .catch(function(err){
+                    console.log(err)
+                    return res.status(500).json({ 'error': 'unable to verify track' });
+                });
+            },
+            function(trackFound, done){
+                if(trackFound){
+                    models.User.findOne({
+                        where: { id: userId }
+                    })
+                    .then(function(userFound){
+                        done(null, trackFound, userFound);
+                    })
+                    .catch(function(err){
+                        return res.status(500).json({ 'error': 'unable to verify user' });
+                    });
+                }else{
+                    return res.status(404).json({ 'error': 'user not found' });
+                }
+            },
+            function(trackFound, userFound, done){
+                console.log('CREATE')
+                var newReport = models.Report.create({
+                    userId: userId,
+                    linkId: trackId,
+                    message: message
+                })
+                .then(function(newReport){
+                    done(newReport)
+                }).catch(function(err){
+                    console.log(err)
+                    return res.status(500).json({'error':'cannot add report before last : '+ err});
+                })
+            }],
+            function(newReport){
+                console.log('FINAL')
+                if(newReport){
+                    return res.status(201).json({'report added' : newReport.id });
+                } else {
+                    
+                    return res.status(500).json({'error':'cannot add user'});
+                }
+            }
+        )
+    },
     like: function(req, res){
         var headerAuth = req.headers['authorization'];
         var userId = jwtUtils.getUserId(headerAuth);
@@ -121,7 +190,6 @@ module.exports = {
 
         asyncLib.waterfall([
             function(done){
-                // Problème à ce niveau, n'arrive pas à verifier LinkId (le rajoute à la field list alors qu'il y est pas)
                 console.log('-----------------')
                 console.log(req.params)
                 models.Link.findOne({
