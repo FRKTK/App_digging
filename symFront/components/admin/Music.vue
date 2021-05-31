@@ -22,9 +22,9 @@
 </template>
 
 <script>
-import NameSongComponent from "@/components/musicControl/name";
-import SongControlComponent from "@/components/admin/songControl/basicControl";
-import VideoComponent from "@/components/musicControl/video";
+import NameSongComponent from "@/components/musicControl/MusicName";
+import SongControlComponent from "@/components/admin/songControl/BasicControl";
+import VideoComponent from "@/components/musicControl/MusicVideo";
 import { BRow, BCard, BCol } from "bootstrap-vue";
 import { mapState } from "vuex";
 import axios from "axios";
@@ -53,14 +53,16 @@ export default {
   components: {
     NameSongComponent,
     SongControlComponent,
-    VideoComponent
+    VideoComponent,
+    BRow, 
+    BCard,
+    BCol
   },
   computed: {
   },
   methods: {
   },
   mounted() { 
-    console.log(this.track.visible)
    },
 };
 </script>

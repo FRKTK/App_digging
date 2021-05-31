@@ -3,7 +3,7 @@
     <b-row class="justify-content-md-center mt-5">
       <b-col lg="6">
         <b-card header="Formulaire d'ajout">
-          <songForm @update="link = $event" />
+          <SongForm @update="link = $event" />
 
           <div>
             <b-badge
@@ -31,7 +31,7 @@
             frameborder="0"
             allowfullscreen
           ></iframe>
-          <preview />
+          <PreviewSong />
         </b-card>
       </b-col>
     </b-row>
@@ -39,14 +39,14 @@
 </template>
 
 <script>
-import preview from "@/components/addSong/preview";
-import songForm from "@/components/addSong/songForm";
+import PreviewSong from "@/components/addSong/PreviewSong";
+import SongForm from "@/components/addSong/SongForm";
 import axios from "axios";
 import { BCol, BContainer, BRow, BCard, BIconX, BButton } from "bootstrap-vue";
 
 export default {
   name: "AddSong",
-  components: { preview, songForm, BCol, BContainer, BRow, BCard, BIconX },
+  components: { PreviewSong, SongForm, BCol, BContainer, BRow, BCard, BIconX },
   data() {
     return {
       tags: [],

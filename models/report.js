@@ -3,7 +3,8 @@ module.exports = (sequelize, DataTypes) => {
   const Report = sequelize.define('Report', {
     userId: DataTypes.INTEGER,
     linkId: DataTypes.INTEGER,
-    message: DataTypes.STRING
+    message: DataTypes.STRING,
+    treated: DataTypes.BOOLEAN
   }, {});
   Report.associate = function(models) {
     // associations can be defined here

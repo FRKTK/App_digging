@@ -1,12 +1,12 @@
 <template>
-    <loginForm />
+    <LoginForm />
 </template>
 
 <script>
-import loginForm from '@/components/form/loginForm'
+import LoginForm from '@/components/form/LoginForm'
 export default { 
     name: 'login',
-    components: { loginForm }
+    components: { LoginForm }
 }
 </script>
 

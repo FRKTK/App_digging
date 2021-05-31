@@ -1,16 +1,16 @@
 <template>
   <b-container>
-    <registerForm />
+    <RegisterForm />
   </b-container>
 </template>
 
 <script>
 import { BContainer } from "bootstrap-vue";
-import registerForm from "@/components/form/registerForm";
+import RegisterForm from "@/components/form/RegisterForm";
 
 export default {
   components: {
-    registerForm,
+    RegisterForm,
   },
 };
 </script>

@@ -422,5 +422,25 @@ module.exports = {
             }
           })
     },
+    getTrack: function(req, res){
+        var trackId = parseInt(req.params.trackId);
 
+        models.Link.findOne({
+            include: [{
+                model: models.User,
+                attributes: [ 'username' ]
+            }],
+            where: { id: trackId }
+        }).then(function(links) {
+            if (links) {
+              return res.status(200).json(links);
+            } else {
+              res.status(404).json({ "error": "no links found" });
+            }
+          }).catch(function(err) {
+              console.log('----- ERROR ----')
+            console.log(err);
+            res.status(500).json({ "error": "invalid fields" });
+          });
+    }
 }

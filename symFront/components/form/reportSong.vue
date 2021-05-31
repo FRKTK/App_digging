@@ -2,6 +2,10 @@
   <form @submit="report">
     {{ track.id }}
     <b-form-select v-model="selected" :options="options"></b-form-select>
+
+    <b-form-checkbox v-model="checked1" name="check-button" button>
+      Button Checkbox <b>(Checked: )</b>
+    </b-form-checkbox>
     <small
       >Chaque lien reporté est traité dans un bref délais. S'il n'enfrain
       aucunes règles, celui-ci réaparaitra dès lors qu'il aurat été traité par

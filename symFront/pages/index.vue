@@ -5,7 +5,7 @@
         <client-only>
           <!-- && likedTracks.length pour v-if -->
           <b-row v-if="tracks.length"> 
-            <musicComponent 
+            <MusicComponent 
               v-for="(track, i) in tracks" :key="i" 
               :track="track" :username="track.User.username"
               :liked="isLiked(track.id)" />
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import musicComponent from "@/components/homepage/music";
+import MusicComponent from "@/components/homepage/MusicComponent";
 import { BContainer } from "bootstrap-vue";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -25,7 +25,7 @@ import Cookies from "js-cookie";
 export default {
   auth: false,
   components: {
-    musicComponent,
+    MusicComponent,
   },
   data() {
     return {

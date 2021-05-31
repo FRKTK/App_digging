@@ -30,7 +30,7 @@
             <b-dropdown-item>Sign Out</b-dropdown-item>
         </b-nav-item-dropdown>
         <b-modal id="loginModal" hide-footer>
-                <loginForm @successLogin="closeModal" />
+                <LoginForm @successLogin="closeModal" />
         </b-modal>
       </b-navbar-nav>
     </b-navbar>
@@ -39,12 +39,12 @@
 
 <script>
 import { BNavbar, BNavItem, BAvatar } from "bootstrap-vue";
-import loginForm from "@/components/form/loginForm";
+import LoginForm from "@/components/form/LoginForm";
 
 export default {
   name: "login",
   components: {
-    loginForm,
+    LoginForm,
   },
 
   data() {

@@ -19,7 +19,7 @@
       </b-card>
       <h2>Songs added</h2>
        <b-row class="userSongs"> 
-            <musicComponent 
+            <MusicComponent 
               v-for="(link, i) in links" :key="i" 
               :track="link" :username="userInfo.username"
               :liked="isLiked(link.id)" />
@@ -27,7 +27,7 @@
         <h2>Songs liked</h2>
        <b-row class="userSongs"> 
          
-            <musicComponent 
+            <MusicComponent 
               v-for="(like, i) in likes" :key="i" 
               :track="like.Link" :username="userInfo.username"
               :liked="isLiked(like.Link.id)" />
@@ -37,7 +37,7 @@
 
 <script>
 import axios from 'axios'
-import musicComponent from "@/components/homepage/music";
+import MusicComponent from "@/components/homepage/MusicComponent";
 
     export default {
         data() {
@@ -51,7 +51,7 @@ import musicComponent from "@/components/homepage/music";
             }
         },
         components: {
-          musicComponent
+          MusicComponent
         },
         created() {
           this.$axios.get(process.env.apiUrl + '/user/me/')

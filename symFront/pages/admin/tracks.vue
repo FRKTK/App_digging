@@ -2,23 +2,13 @@
   <div id="app">
       <div>
         <client-only>
-          <!-- && likedTracks.length pour v-if -->
-          <!-- Widgets :
-          - Usercount : Deleted et non deleted
-          - TrackCount : Visible et non visible
-          - ReportCount : à traiter -->
-          <b-row class="mt-3 w-100" offset="3">
-            <userCount />
-            <trackCount />
-            <reportCount />
-          </b-row>
-         <!-- <div
+         <div
             v-if="tracks.length"> 
             <musicComponent 
               v-for="(track, i) in tracks" :key="i" 
               :track="track"
               />
-            </div> -->
+            </div>
         </client-only>
       </div>
   </div>
@@ -26,9 +16,6 @@
 
 <script>
 import musicComponent from "@/components/admin/Music";
-import userCount from "@/components/admin/widgets/userCount"
-import trackCount from "@/components/admin/widgets/trackCount"
-import reportCount from "@/components/admin/widgets/reportCount"
 import { BContainer } from "bootstrap-vue";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -38,9 +25,6 @@ export default {
   layout: 'admin',
   components: {
     musicComponent,
-    userCount,
-    trackCount,
-    reportCount,
   },
   data() {
     return {

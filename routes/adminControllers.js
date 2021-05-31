@@ -259,7 +259,6 @@ module.exports = {
                             where: { id: userIdToDelete },
                         }).then(function(deleteUserFound) {
                             if (deleteUserFound) {
-                                console.log(deleteUserFound)
                               done(null, deleteUserFound);
                             } else {
                               res.status(404).json({ "error": "no link found" });
@@ -290,6 +289,59 @@ module.exports = {
             }
         )
     },
+    activeUsers: function(req, res){
+        var headerAuth = req.headers['authorization'];
+        var userId = jwtUtils.getUserId(headerAuth);
+        var userIdToActive = parseInt(req.params.userId)
+        
+        asyncLib.waterfall([
+            function(done){
+                // Vérification si user est Admin
+                models.User.findOne({
+                    attributes: ['id', 'isAdmin'],
+                    where: { id: userId }
+                })
+                .then((userFound) => done(null, userFound))
+                .catch((err) => res.status(500).json({ 'error': 'unable to verify user : ' + err }));
+            },
+            function(userFound, done){
+                if(userFound){
+                    var isAdmin = userFound.isAdmin
+                    if(isAdmin == true){
+                        models.User.findOne({
+                            where: { id: userIdToActive },
+                        }).then(function(deleteUserFound) {
+                            if (deleteUserFound) {
+                              done(null, deleteUserFound);
+                            } else {
+                              res.status(404).json({ "error": "no link found" });
+                            }
+                          }).catch(function(err) {
+                              console.log('----- ERROR ----')
+                            console.log(err);
+                            res.status(500).json({ "error": "invalid fields" });
+                          });
+                    }else{
+                        return res.status(500).json({'error': 'User is not admin'})
+                    }
+                }
+            },
+            function(deleteUserFound, done){
+                deleteUserFound.update({
+                    where: { id: userIdToActive },
+                    deleted: 0
+                }).then((userActivated) => done(userActivated))
+                .catch((err) => res.status(500).json({ "error": "cannot delete user" }))
+            }],
+            function(userActivated){
+                if(userActivated){
+                    return res.status(201).json({'success': 'UserId ' + userIdToActive + ' deleted' })
+                }else{
+                    return res.status(500).json({ "error": "cannot delete track" })
+                }
+            }
+        )
+    },
     userInfo: function(req, res){
         var headerAuth = req.headers['authorization'];
         var userId = jwtUtils.getUserId(headerAuth);
@@ -310,27 +362,34 @@ module.exports = {
                     var isAdmin = userFound.isAdmin
                     if(isAdmin == true){
                         models.User.findOne({
-                            attributes: [ 'id', 'username', 'isAdmin', 'createdAt', 'updatedAt', 'deleted'],
+                            attributes: [ 'id', 'username', 'email','isAdmin', 'createdAt', 'updatedAt', 'deleted'],
                             where: { id: userInfoId },
                             include: [
                                 {
-                                    model: models.Likes
+                                    model: models.Likes,
+                                    where: { userId: userInfoId },
+                                    required: false
                                 },
                                 {
                                     model: models.Link,
-                                    include: [
-                                        {
-                                            model: models.Tags
-                                        }
-                                    ]
+                                    required: false,
+                                    where: { userId: userInfoId },
+                                    // include: [
+                                    //     {
+                                    //         model: models.Tags,
+                                    //         where: { linkId: models.Link.id},
+                                    //         required: false,
+                                    //         right: true
+                                    //     }
+                                    // ]
                                 }
                             ]
                         }).then(function(userInfoFound) {
                             if (userInfoFound) {
-                                console.log(userInfoFound)
-                              done(userInfoFound);
+                                done(userInfoFound);
                             } else {
-                              res.status(404).json({ "error": "no link found" });
+                                console.log('ERROR 404')
+                              res.status(404).json({ "error": "no user found" });
                             }
                           }).catch(function(err) {
                               console.log('----- ERROR ----')
@@ -351,5 +410,92 @@ module.exports = {
             }
         )
     },
+    getAllReported: function(req, res){
+        var headerAuth = req.headers['authorization'];
+        var userId = jwtUtils.getUserId(headerAuth);
+        asyncLib.waterfall([
+            function(done){
+                models.User.findOne({
+                    attributes: ['id', 'isAdmin'],
+                    where: { id: userId }
+                })
+                .then((userFound) => done(userFound))
+                .catch((err) => res.status(500).json({ 'error': 'unable to verify user - error : ' + err }));
+            },
+        ], function(userFound){
+                if(userFound){
+                    var isAdmin = userFound.isAdmin
+                    console.log(isAdmin)
+                    if(isAdmin == true){
+                        models.Report.findAll({
+                            attributes: ['id', 'userId', 'linkId', 'message', 'treated', 'createdAt'],
+                        }).then(function(links) {
+                            if (links) {
+                              return res.status(200).json(links);
+                            } else {
+                              res.status(404).json({ "error": "no links found" });
+                            }
+                          }).catch(function(err) {
+                              console.log(err)
+                            res.status(500).json({ "error": "invalid fields" });
+                          });
+                    }else{
+                        return res.status(500).json({'error': 'User is not admin'})
+                    }
+                }
+            }
+        )
+    },
+    treatReport: function(req, res){
+        var headerAuth = req.headers['authorization'];
+        var userId = jwtUtils.getUserId(headerAuth);
+
+        var reportId = parseInt(req.params.reportId)
+
+        asyncLib.waterfall([
+            function(done){
+                models.User.findOne({
+                    attributes: ['id', 'isAdmin'],
+                    where: { id: userId }
+                })
+                .then((userFound) => done(null, userFound))
+                .catch((err) => res.status(500).json({ 'error': 'unable to verify user - error : ' + err }));
+            },
+            function(userFound, done){
+                if(userFound){
+                    var isAdmin = userFound.isAdmin
+                    if(isAdmin == true){
+                        console.log(reportId)
+                        models.Report.findOne({
+                            where: { id: reportId }
+                        })
+                        .then((reportFound) => done(null, reportFound))
+                        .catch((err) => console.log('----- ERROR -----', err))
+                    }else{
+                        return res.status(500).json({'error': 'User is not admin'})
+                    }
+                }
+            },
+            function(reportFound, done){
+                if(reportFound){
+                    reportFound.update({
+                        where: { id: reportId },
+                        treated: 1,
+                    })
+                    .then((treated) => done(treated))
+                    .catch((err) => console.log('----- ERROR -----', err))
+                }else{
+                    return res.status(500).json({'error': 'Cannot be treated'})
+                }
+            }
+        ], function(treated){
+                if(treated){
+                    return res.status(201).json({ 'treated': treated })
+                } else {
+                    return res.status(500).json({ "error": "cannot treat track" })
+                }
+            }
+        )
+    }
     
 }

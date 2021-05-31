@@ -13,6 +13,12 @@
               <b-nav-item>
                 <nuxt-link to="/admin/users">Users</nuxt-link> 
               </b-nav-item>
+              <b-nav-item>
+                <nuxt-link to="/admin/tracks">Tracks</nuxt-link> 
+              </b-nav-item>
+              <b-nav-item>
+                <nuxt-link to="/admin/reported">Songs reported</nuxt-link> 
+              </b-nav-item>
             </b-nav>
           </nav>
           <b-button variant="primary" href="/" block>Close Administration</b-button>

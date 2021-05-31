@@ -1,8 +1,8 @@
 <template>
   <b-container fluid class="main">
     <div>
-      <b-row>
-        <b-col lg="12">
+      <b-row class="mt-4" offset="4">
+        <b-col>
             <b-list-group>
                 <UsersInfos v-for="(user, i) in users" :key="i" :user="user" />
             </b-list-group>

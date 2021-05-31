@@ -3,7 +3,7 @@
     <b-card class="mt-3 songCard" no-body>
       <div class="aam_headerTrack">
         <small class="addBy text-muted">add by : {{ username }}</small>
-        <span :class="'reportModal-' + trackId" @click="reportModal">Report</span>
+        <span :class="'reportModal-' + trackId" v-if="this.$store.getters.isAuthenticated" @click="reportModal">Report</span>
       </div>
       <VideoComponent :song="track" class="videoComponent"/>
       <div class="trackInfo">
@@ -12,17 +12,17 @@
       </div>
        <b-modal :id="'reportModal-' + trackId" hide-footer>
                 <NameSongComponent :artist="artist" :song="track" />
-                <reportSong :track="track" @songReported="closeReport"/>
+                <ReportSong :track="track" @songReported="closeReport"/>
         </b-modal>
     </b-card>
   </b-col>
 </template>
 
 <script>
-import NameSongComponent from "@/components/musicControl/name";
-import SongControlComponent from "@/components/musicControl/control";
-import VideoComponent from "@/components/musicControl/video";
-import reportSong from "@/components/form/reportSong";
+import NameSongComponent from "@/components/musicControl/MusicName";
+import SongControlComponent from "@/components/musicControl/MusicControl";
+import VideoComponent from "@/components/musicControl/MusicVideo"
+import ReportSong from "@/components/form/ReportSong";
 import { BRow, BCard, BCol } from "bootstrap-vue";
 import { mapState } from "vuex";
 import axios from "axios";
@@ -54,7 +54,7 @@ export default {
     NameSongComponent,
     SongControlComponent,
     VideoComponent,
-    reportSong
+    ReportSong
   },
   computed: {
   },
